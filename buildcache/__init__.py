@@ -49,10 +49,12 @@ class Cache:
         """
         shutil.rmtree(os.path.join(self._cachedir, key), ignore_errors=True)
         for path in paths:
-            os.makedirs(os.path.join(self._cachedir, key, os.path.dirname(path)))
+            os.makedirs(
+                os.path.join(self._cachedir, key, os.path.dirname(path)))
             abs_path = os.path.join(self._workdir, path)
             if os.path.isdir(abs_path):
-                shutil.copytree(abs_path, os.path.join(self._cachedir, key, path))
+                shutil.copytree(abs_path, os.path.join(self._cachedir, key,
+                                                       path))
             else:
                 shutil.copy2(abs_path, os.path.join(self._cachedir, key, path))
 
@@ -88,6 +90,6 @@ class Cache:
         Return:
             A hex digest (a string) of the content of these paths.
         """
-        return checksum.digest_json(checksum.digest_files([
-            os.path.join(self._workdir, path) for path in paths
-        ]))
+        return checksum.digest_json(
+            checksum.digest_files(
+                [os.path.join(self._workdir, path) for path in paths]))

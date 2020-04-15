@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2020 Hadrien Chauvin
-
 """Checksum/digest various objects and resources."""
 
 import os

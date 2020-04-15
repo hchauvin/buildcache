@@ -1,6 +1,5 @@
 # SPDX-License-Identifier: MIT
 # Copyright (c) 2020 Hadrien Chauvin
-
 """Command-Line Interface."""
 
 import argparse
@@ -17,7 +16,8 @@ class CLI:
 
     def __init__(self):
         parser = argparse.ArgumentParser(
-            description='CircleCI-like local cache', usage="buildcache <command> [<args>]")
+            description='CircleCI-like local cache',
+            usage="buildcache <command> [<args>]")
         subcommands = [
             attr for attr in dir(self)
             if not attr.startswith("_") and callable(getattr(self, attr))
@@ -33,15 +33,13 @@ class CLI:
         getattr(self, args.command)()
 
     def restore(self):
-        parser = argparse.ArgumentParser(
-            description='Restore a cache')
+        parser = argparse.ArgumentParser(description='Restore a cache')
         parser.add_argument('keys', help='Cache keys to search for', nargs='*')
         args = parser.parse_args(sys.argv[2:])
         self._cache().restore(args.keys)
 
     def save(self):
-        parser = argparse.ArgumentParser(
-            description='Save files into a cache')
+        parser = argparse.ArgumentParser(description='Save files into a cache')
         parser.add_argument('key', help='Cache key')
         parser.add_argument('paths', help='Paths to save', nargs='*')
         args = parser.parse_args(sys.argv[2:])
@@ -50,15 +48,15 @@ class CLI:
     def checksum(self):
         parser = argparse.ArgumentParser(
             description='Checksum files or directories')
-        parser.add_argument('paths', help='Paths to get a checksum for', nargs='*')
+        parser.add_argument(
+            'paths', help='Paths to get a checksum for', nargs='*')
         args = parser.parse_args(sys.argv[2:])
         print(self._cache().checksum(args.paths), end="")
 
     def _cache(self):
         return Cache(
-            workdir=os.getcwd(),
-            cachedir=os.path.join(os.getcwd(), ".cache")
-        )
+            workdir=os.getcwd(), cachedir=os.path.join(os.getcwd(), ".cache"))
+
 
 try:
     CLI()
